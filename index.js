@@ -1,31 +1,13 @@
 const express = require("express");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const keys = require("./config/keys");
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+require('./services/passport');
+
+mongoose.connect(keys.mongoURI);
 
 const app = express(); //the server
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback"
-    },
-    accessToken => {
-      console.log(accessToken);
-    }
-  )
-);
-//console.developers.google.com
-
-//route handlers
-app.get(
-  "/auth/google",
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  })
-);
+require('./routes/authRoutes')(app);
 
 //req stands for request object
 //res stands for response object
