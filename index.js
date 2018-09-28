@@ -1,7 +1,11 @@
 const express = require("express");
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const keys = require('./config/keys');
+require('./models/User'); //this has to be before passport to make use of it
 require('./services/passport');
+
 
 mongoose.connect(keys.mongoURI);
 
