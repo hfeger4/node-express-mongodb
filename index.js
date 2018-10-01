@@ -11,6 +11,16 @@ mongoose.connect(keys.mongoURI);
 
 const app = express(); //the server
 
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 require('./routes/authRoutes')(app);
 
 //req stands for request object
